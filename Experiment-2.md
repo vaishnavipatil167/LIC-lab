@@ -170,7 +170,7 @@ Wp = 6.286 × 10⁻⁵ m
  # Before tuning :
 <img width="1918" height="855" alt="image" src="https://github.com/user-attachments/assets/25836271-72bf-42e8-96b9-2bce30452a7c" />
 
-# After simulation and width tuning:
+# After width tuning:
 <img width="1897" height="833" alt="Screenshot 2026-02-25 143555" src="https://github.com/user-attachments/assets/4ac58195-649d-4f9e-b020-9cc0a24ac927" />
 
 
@@ -301,4 +301,4 @@ A CS amplifier using 180nm technology with PMOS active load was successfully des
 
 The design satisfies given power and load capacitance specifications.
 
----
+----
