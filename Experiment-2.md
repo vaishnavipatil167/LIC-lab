@@ -9,6 +9,43 @@ To design a Common Source (CS) Amplifier using 180nm CMOS technology with PMOS a
 
 ---
 
+##  Theory
+
+### 1. Common Source (CS) Amplifier
+
+A **Common Source (CS) amplifier** is a basic MOSFET amplifier configuration in which:
+
+- The **input** is applied at the **Gate**
+- The **output** is taken from the **Drain**
+- The **Source** terminal is common (usually connected to ground)
+
+### * Characteristics:
+
+- High voltage gain  
+- 180° phase shift between input and output  
+- Moderate input impedance  
+- High output impedance  
+
+The CS amplifier is one of the most fundamental and widely used configurations in analog circuit design.
+
+---
+
+###  2. Why PMOS Active Load?
+
+Instead of using a physical resistor at the drain terminal, a **PMOS transistor** is used as an **active load**.
+
+### * Advantages:
+
+- Saves chip area (very important in 180nm IC design)
+- Provides high output resistance
+- Gives higher voltage gain
+- Better compatibility with CMOS fabrication process
+- Improves integration in VLSI design
+
+Using an active load significantly enhances amplifier performance compared to a simple resistive load.
+
+---
+
 ## Given Specifications  
 
 VDD = 1.5 V  
@@ -315,5 +352,333 @@ The PMOS Common Source amplifier was successfully designed and simulated.
 
 Hence, the experiment is verified successfully
 ---
+
+
+ 
+# B.Design of 3-Transistor Common Source Amplifier Using 180nm Technology  
+
+---
+
+## Aim  
+
+To design and analyze a **Common Source amplifier using PMOS active load and NMOS current source bias** in 180nm technology and verify the performance using:
+
+- DC Operating Point Analysis  
+- Transient Analysis  
+- AC Analysis  
+
+---
+
+## Theory  
+
+### 1. Circuit Description  
+
+This circuit consists of three MOSFETs:
+
+- **M1** → NMOS (Common Source transistor)  
+- **M2** → PMOS (Active load)  
+- **M3** → NMOS (Current source transistor)  
+
+The output is taken at the drain of M1.
+
+This topology is called:
+
+> **Current Source Loaded Common Source Amplifier**
+
+It provides higher gain and better bias stability compared to resistor-loaded CS amplifier.
+
+---
+
+### 2. Why Active Load and Current Source?
+
+Using PMOS as active load:
+
+- Saves chip area  
+- Provides high output resistance  
+- Improves gain  
+
+Using NMOS current source:
+
+- Maintains constant drain current  
+- Improves bias stability  
+- Enhances small signal gain  
+
+---
+
+## Given Specifications  
+
+VDD = 1.5 V  
+P ≤ 0.5 mW  
+L = 180 nm  
+Vov = 0.25 V  
+
+Technology Parameters:
+
+VTHn = 0.366 V  
+|VTHp| = 0.39 V  
+
+μn = 273.80 × 10⁻⁴  
+μp = 115.689 × 10⁻⁴  
+
+tox = 4.1 × 10⁻⁹ m  
+
+εox = 3.9 × 8.854 × 10⁻¹²  
+
+---
+
+# Step-1: Oxide Capacitance Calculation  
+
+Cox = εox / tox  
+
+Cox = (3.9 × 8.854 × 10⁻¹²) / (4.1 × 10⁻⁹)  
+
+Cox = 8.422 × 10⁻³ F/m²  
+
+---
+
+# Step-2: Drain Current from Power Constraint  
+
+P = VDD × ID  
+
+0.5 × 10⁻³ = 1.5 × ID  
+
+ID = 0.334 mA  
+
+---
+
+# Step-3: M1 (NMOS) Calculations  
+
+Assume:
+
+Vov = 0.25 V  
+
+Vov = VGS − VTH  
+
+VGS1 = 0.25 + 0.366  
+
+VGS1 = 0.616 V  
+
+---
+
+### Output Bias Point  
+
+For symmetrical swing:
+
+Vout = VDD / 2  
+
+Vout = 1.5 / 2  
+
+Vout = 0.75 V  
+
+---
+
+### Assume Source Voltage  
+
+Vs = 0.3 V  
+
+VGS1 = VG1 − Vs  
+
+VG1 = VGS1 + Vs  
+
+VG1 = 0.616 + 0.3  
+
+VG1 = 0.916 V  
+
+---
+
+### Saturation Condition Check  
+
+VDS1 = Vout − Vs  
+
+VDS1 = 0.75 − 0.3  
+
+VDS1 = 0.45 V  
+
+Condition:
+
+VDS ≥ Vov  
+
+0.45 ≥ 0.25 ✔  
+
+M1 operates in saturation.
+
+---
+
+# Step-4: M3 (NMOS Current Source)  
+
+For M3:
+
+VGS3 = Vov + VTH  
+
+VGS3 = 0.25 + 0.366  
+
+VGS3 = 0.616 V  
+
+Since source of M3 is grounded:
+
+VG3 = 0.616 V  
+
+---
+
+# Step-5: Width Calculation  
+
+Drain current equation:
+
+ID = (1/2) μ Cox (W/L) (Vov)²  
+
+---
+
+### NMOS (M1 & M3)
+
+ID = 1/2 × 273.80×10⁻⁴ ×  (3.9 × 8.854 × 10⁻¹²) / (4.1 × 10⁻⁹) × (W/180×10⁻⁹) × (0.25)²  
+
+Solving:
+
+Wn ≈ 8.34 µm  
+
+After DC tuning:
+
+Wn ≈ 25.77µm  
+
+---
+
+### PMOS (M2)
+
+ID = 1/2 × 115.689×10⁻⁴ × (3.9 × 8.854 × 10⁻¹²) / (4.1 × 10⁻⁹) × (W/180×10⁻⁹)  × (0.25)²  
+
+Wp ≈ 19.77 µm  
+
+After DC tuning:
+
+Wp ≈ 59.90 µm  
+
+---
+# Circuit Diagram:
+![WhatsApp Image 2026-03-01 at 8 45 55 PM](https://github.com/user-attachments/assets/579a1da2-12b3-4dbb-83e5-004041dcd375)
+
+
+# Step-6: DC Analysis 
+Before width tuning :
+![WhatsApp Image 2026-03-01 at 6 05 24 PM](https://github.com/user-attachments/assets/7937de16-4bd6-4171-9559-246eda3b59d2)
+
+
+After width tuning:
+![WhatsApp Image 2026-03-01 at 6 05 24 PM](https://github.com/user-attachments/assets/c11fb17b-82cf-451f-bb46-d48c32405624)
+
+
+ID ≈ 0.333 mA  
+
+Vout ≈ 0.753695 V  
+
+✔ Bias point achieved near mid-supply.
+
+---
+
+# Step-7: Transient Analysis 
+![WhatsApp Image 2026-03-01 at 6 38 40 PM](https://github.com/user-attachments/assets/6687d1ad-52a6-4de4-a6f9-58513fa29c1d)
+
+Measured Gain from waveform:
+
+Taking Vin(p-p) = 20 × 10⁻³ v
+
+Gain = ΔVout / Vin (p-p)
+
+=  783.28m-724.04m /  20 × 10⁻³ 
+
+Gain = 2.962
+
+Av(dB) = 20 log (2.962)
+
+Av = 9.431 dB  
+
+
+---
+
+# Step-8: Theoretical Gain  
+
+Small signal gain:
+
+Av = gm (ro1 || ro2) / (1 + gm ro3)
+
+---
+
+### Transconductance  
+
+gm = 2ID / Vov  
+
+gm = 2 × 0.334×10⁻³ / 0.25  
+
+gm = 2.672 × 10⁻³ S  
+
+---
+
+### Output Resistance  
+
+For NMOS:
+
+λ = 0.1  
+
+ro1 = ro3 = 1 / (λ ID)  
+
+ro1 = 29.94 kΩ  
+
+For PMOS:
+
+λ = 0.12  
+
+ro2 = 24.95 kΩ  
+
+ro1 || ro2 ≈ 13.609 kΩ  
+
+---
+
+### Final Theoretical Gain  
+
+Av = 0.4489 V/V  
+
+Av(dB) ≈ 6.957 dB  
+
+---
+
+# Step-9: AC Analysis  
+![WhatsApp Image 2026-03-01 at 6 52 29 PM](https://github.com/user-attachments/assets/4da22aa8-952c-4bf1-95e5-bf5af3b85aac)
+
+
+gain = 9.55- 3dB 
+
+gain = 6.55 dB
+
+BW = fH − fL
+
+fL = 0 
+
+BW = fH = 167.91 MHz 
+
+
+
+---
+
+# Final Results  
+
+| Parameter | Theoretical | Practical |
+|------------|-------------|------------|
+| ID | 0.334 mA | 0.333 mA |
+| Vout | 0.75 V | 0.753 V |
+| Gain (V/V) | 0.4489 | 2.962 |
+| Gain (dB) | 6.957 dB | 9.431 dB |
+
+---
+
+# Inference  
+
+The 3-transistor Common Source amplifier using PMOS active load and NMOS current source bias was successfully designed and simulated in 180nm technology.
+
+- All MOSFETs operate in saturation region.  
+- Bias point achieved near VDD/2.  
+- Practical gain is lower due to channel length modulation and parasitic effects.  
+- The circuit behaves as an inverting amplifier.
+
+---
+
 
 
