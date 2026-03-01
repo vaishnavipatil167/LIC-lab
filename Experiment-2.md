@@ -212,6 +212,20 @@ Av(dB) = 20 log (9.723)
 Av ≈ 19.75 dB  
 
 ---
+Taking Vin(p-p) = 20 × 10⁻³ v
+
+Gain = ΔVout / Vin (p-p)
+
+=  (1.0873 − 0.84293) /  20 × 10⁻³ 
+
+Gain ≈ 12.2185
+
+Av(dB) = 20 log (12.2185)
+
+Av ≈ 21.75 dB  
+
+
+
 
 # Step-6: Theoretical Gain Calculation
 
@@ -249,9 +263,7 @@ ro1 || ro2 = 14.97 kΩ
 
 ### 3) Theoretical Gain
 
-Av = (2.672 × 10⁻³ × 14.97 × 10³)  
-      ---------------------------------
-      (1 + 2.672 × 10⁻³ × 598.8)
+Av = (2.672 × 10⁻³ × 14.97 × 10³)  / (1 + 2.672 × 10⁻³ × 598.8)
 
 Av = 15.38  
 
@@ -289,16 +301,19 @@ BW = fH = 219.542 MHz
 | Gain (dB) | 23.74 dB | 19.75 dB |
 
 ---
+#  Inference
 
-# Conclusion
+The PMOS Common Source amplifier was successfully designed and simulated.
 
-A CS amplifier using 180nm technology with PMOS active load was successfully designed.  
+- The transistor operates in saturation region.
+- Gain obtained practically is slightly less than theoretical due to:
+  - Channel length modulation
+  - Parasitic capacitances
+  - Non-ideal effects
+- Phase shift of 180° confirms inverting amplifier behavior.
+- AC and transient analysis results match closely with theoretical values.
 
-• Biasing conditions satisfied  
-• Both MOSFETs operated in saturation  
-• Operating point achieved near mid supply  
-• Practical gain slightly lower than theoretical due to channel length modulation and parasitic effects  
+Hence, the experiment is verified successfully
+---
 
-The design satisfies given power and load capacitance specifications.
 
-----
