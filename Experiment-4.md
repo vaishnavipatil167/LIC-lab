@@ -423,7 +423,7 @@ $$
 V_{DS} \geq V_{OV}
 $$
 
-✔ Transistor operates in **saturation region**
+Transistor operates in **saturation region**
 
 ---
 
@@ -960,7 +960,7 @@ $$
 
   ## Transient Analysis – Linear vs Non-Linear Behavior
 
-## 🔧 Circuit Setup
+##  Circuit Setup
 
 - Load Capacitor:
 
@@ -1264,7 +1264,7 @@ $$
   - Symmetrical output ($V_{out} \approx 0$)  
   - Proper biasing ($V_p = -0.7$ V)  
 
-✔ All MOSFETs operate in **saturation region**
+ All MOSFETs operate in **saturation region**
 
 ---
 
@@ -1352,6 +1352,1048 @@ The results from DC, transient, and AC analyses confirm that the amplifier provi
 The design meets all specifications and demonstrates the fundamental operation of a MOS differential amplifier as both a **linear amplifier** and a **non-linear switching device**, depending on the input conditions.
 
 ---
+# CIRCUIT 2 
+**CIRCUIT DIAGRAM**
+<img width="1182" height="877" alt="Screenshot 2026-03-29 001109" src="https://github.com/user-attachments/assets/9011a0dd-df8e-4954-b8f0-1223d60cce69" />
+
+
+# Circuit Design Calculations
+
+## Given Specifications
+- VDD = 0.9 V  
+- VSS = −0.9 V  
+- Maximum Power P ≤ 1.8 mW  
+- Tail node voltage Vp = −0.7 V  
+- Input common mode voltage VinCM = 0 V  
+- Channel length L = 480 nm  
+
+### Technology Parameters (TSMC 0.18 µm)
+
+**NMOS**
+- Threshold voltage VTHn = 0.366 V  
+- Electron mobility μn = 0.0115689 m²/V·s  
+
+**PMOS**
+- Threshold voltage |VTHp| ≈ 0.39 V  
+- Hole mobility μp = 0.02738 m²/V·s  
+
+**Oxide Capacitance**
+- εox = 3.453 × 10⁻¹¹ F/m  
+- tox = 4.1 × 10⁻⁹ m  
+- Cox = 8.42 × 10⁻³ F/m²  
+
+
+
+## 1. Total Current Calculation
+P = (VDD − VSS) × Itotal  
+
+1.8 mW = 1.8 × Itotal  
+
+**Itotal = 1 mA**
+
+
+
+## 2. Current Distribution
+- Tail current (M3): 1 mA  
+- Branch current:  
+  Ibranch = 0.5 mA  
+
+So:
+- ID1 = ID2 = 0.5 mA  
+- ID3 = 1 mA  
+- ID4 = ID5 = 0.5 mA  
+
+
+
+## 3. Gate-Source Voltage (M1, M2)
+VGS = Vin − Vs  
+
+VGS = 0 − (−0.7)  
+
+**VGS = 0.7 V**
+
+---
+
+## 4. Overdrive Voltage
+Choose:
+
+**VOV = 0.2 V**
+
+
+
+## 5. Bias Voltage (VB)
+VGS3 = VTH + VOV  
+
+VGS3 = 0.366 + 0.2 = 0.566 V  
+
+VB = VGS3 + VS  
+
+VB = 0.566 − 0.9 = −0.334 V  
+
+**Choose: VB ≈ −0.35 V**
+
+
+
+## 6. Width Calculation (NMOS)
+
+ID = (1/2) μn Cox (W/L) VOV²  
+
+W/L = 2ID / (μn Cox VOV²)
+
+### For M1, M2:
+- ID = 0.5 mA  
+- W/L ≈ 256  
+- W ≈ 122.9 µm  
+
+### For M3:
+- ID = 1 mA  
+- W/L ≈ 513.29  
+- W ≈ 246.37 µm  
+
+
+
+## 7. Width Calculation (PMOS)
+W/L ≈ 108  
+
+W ≈ 51.8 µm  
+
+
+
+## 8. Output Common Mode Voltage
+VoCM = 0 V  
+
+
+
+## 9. Saturation Condition Check
+
+**NMOS (M1, M2):**  
+VDS = 0.7 V > 0.2 → Saturation  
+
+**M3:**  
+VDS3 = 0.2 V ≥ 0.2 → Edge saturation  
+
+**PMOS (M4, M5):**  
+VSD = 0.9 V > 0.2 → Saturation  
+
+
+
+## Final Results
+- Total current = 1 mA  
+- Branch current = 0.5 mA  
+- VOV = 0.2 V  
+- VB = −0.35 V  
+- NMOS width ≈ 122.9 µm  
+- PMOS width ≈ 51.8 µm  
+- All transistors operate in saturation  
+
+---
+# DC Analysis (Operating Point) :
+
+## Before Tuning
+
+### Transistor Dimensions
+
+- Wn ≈ 122.9 µm (M1, M2)  
+- Wn ≈ 246.37 µm (M3)  
+- Wp ≈ 51.8 µm (M4, M5)  
+
+### Simulation Result
+
+<img width="1693" height="883" alt="Screenshot 2026-03-28 215656" src="https://github.com/user-attachments/assets/c212f904-1706-4e47-9c84-a8d34300b9a4" />
+
+
+## After Tuning
+
+### Simulation Result
+
+<img width="1700" height="891" alt="Screenshot 2026-03-28 220901" src="https://github.com/user-attachments/assets/3d23b712-529f-4113-a65e-084effc5ede4" />
+
+---
+# Input & Output Common Mode Range Analysis
+
+## Given
+
+- VDD = 0.9 V  
+- VSS = −0.9 V  
+- VTHn = 0.366 V  
+- |VTHp| = 0.39 V  
+- VOVn = 0.2 V  
+- VOVp = 0.2 V  
+- Tail node voltage Vp ≈ −0.7 V  
+
+
+
+# 1. Input Common Mode Range (VinCM)
+
+## Condition for Proper Operation
+
+All transistors must remain in saturation:
+
+- M1, M2 → NMOS input pair  
+- M3 → Tail current source  
+- M4, M5 → PMOS load  
+
+
+
+## (A) VinCM(min)
+
+Lower limit is determined by M1, M2 staying ON:
+
+VGS ≥ VTH  
+
+VGS = VinCM − Vp  
+
+So,
+
+VinCM − Vp ≥ VTH  
+
+VinCM ≥ VTH + Vp  
+
+Substitute:
+
+VinCM ≥ 0.366 + (−0.7)  
+
+**VinCM(min) ≥ −0.334 V**
+
+
+
+## (B) VinCM(max)
+
+Upper limit is determined by M1 remaining in saturation:
+
+VDS ≥ VOV  
+
+For M1:
+
+VDS = Vout − Vp  
+
+Also:
+
+VGS = VinCM − Vp  
+
+Saturation condition:
+
+VDS ≥ VGS − VTH  
+
+Vout − Vp ≥ VinCM − Vp − VTH  
+
+Cancel Vp:
+
+Vout ≥ VinCM − VTH  
+
+So:
+
+VinCM ≤ Vout + VTH  
+
+
+
+### PMOS Constraint (M4 Saturation)
+
+VSD ≥ VOV  
+
+VDD − Vout ≥ VOV  
+
+Vout ≤ VDD − VOV  
+
+Vout ≤ 0.9 − 0.2  
+
+Vout ≤ 0.7 V  
+
+
+
+### Substitute into VinCM(max)
+
+VinCM ≤ 0.7 + 0.366  
+
+**VinCM(max) ≤ 1.066 V**
+
+
+
+## Final Input Common Mode Range
+
+- VinCM(min) ≈ −0.334 V  
+- VinCM(max) ≈ 1.066 V  
+
+
+
+# 2. Output Common Mode Range (VoCM)
+
+## (A) VoCM(max)
+
+Limited by PMOS saturation (M4, M5):
+
+VSD ≥ VOV  
+
+VDD − VoCM ≥ VOV  
+
+VoCM ≤ VDD − VOV  
+
+VoCM ≤ 0.9 − 0.2  
+
+**VoCM(max) ≤ 0.7 V**
+
+
+
+## (B) VoCM(min)
+
+Limited by NMOS saturation (M1, M2):
+
+VDS ≥ VOV  
+
+VoCM − Vp ≥ VOV  
+
+VoCM ≥ VOV + Vp  
+
+VoCM ≥ 0.2 + (−0.7)  
+
+**VoCM(min) ≥ −0.5 V**
+
+
+
+## Final Output Common Mode Range
+
+- VoCM(min) ≈ −0.5 V  
+- VoCM(max) ≈ 0.7 V  
+
+
+
+# Summary
+
+## Input Common Mode Range
+- VinCM(min) = −0.334 V  
+- VinCM(max) = 1.066 V  
+
+## Output Common Mode Range
+- VoCM(min) = −0.5 V  
+- VoCM(max) = 0.7 V  
+
+
+
+# Key Observations
+
+- Lower VinCM is limited by NMOS input transistors turning OFF  
+- Upper VinCM is limited by PMOS load saturation  
+- VoCM range ensures both NMOS and PMOS remain in saturation  
+- Proper operation requires all MOSFETs to operate in saturation region  
+
+---
+# Differential Input Voltage Range (Linear Region)
+
+The differential amplifier operates in the linear region as long as both input transistors (M1 and M2):
+
+- Remain ON  
+- Operate in saturation  
+- Share the tail current  
+
+
+
+## Differential Input Definition
+
+vid = vin1 − vin2  
+
+For symmetric inputs:
+
+- vin1 = VinCM + vid/2  
+- vin2 = VinCM − vid/2  
+
+
+
+## Condition for Linear Operation
+
+For proper linear amplification:
+
+- Both M1 and M2 must conduct current  
+- Neither transistor should turn OFF  
+
+Boundary condition occurs when one transistor (M2) is about to turn OFF:
+
+VGS2 = VTH  
+
+
+
+## Derivation
+
+VGS2 = vin2 − Vp  
+
+Substitute:
+
+VinCM − vid/2 − Vp = VTH  
+
+Rearranging:
+
+vid/2 = VinCM − Vp − VTH  
+
+vid = 2 (VinCM − Vp − VTH)  
+
+
+
+## Substituting Circuit Values
+
+- VinCM = 0 V  
+- Vp = −0.7 V  
+- VTH = 0.366 V  
+
+vid = 2 (0 − (−0.7) − 0.366)  
+
+vid = 2 (0.334)  
+
+**vid ≈ 0.668 V**
+
+
+
+## Theoretical Maximum Range
+
+−0.668 V ≤ vid ≤ +0.668 V  
+
+
+
+## Practical Linear Range (Small-Signal Condition)
+
+For good linearity:
+
+|vid| ≤ 2 × VOV  
+
+Given:
+
+VOV = 0.2 V  
+
+**|vid| ≤ 0.4 V**
+
+
+
+## Final Answer
+
+- Theoretical limit:  
+  −0.668 V ≤ vid ≤ +0.668 V  
+
+- Practical linear region:  
+  −0.4 V ≤ vid ≤ +0.4 V  
+
+
+
+## Key Insight
+
+- At |vid| > 0.668 V → one transistor turns OFF → nonlinear region  
+- For accurate amplification → operate within ±0.4 V  
+- Linear range depends strongly on overdrive voltage (VOV)  
+
+---
+
+# Transient Analysis – Linear vs Non-Linear Behavior
+
+## Theory
+
+The CMOS differential amplifier operates linearly when both input transistors (M1 and M2):
+
+- Remain in saturation  
+- Conduct simultaneously  
+- Share the tail current  
+
+The boundary between linear and nonlinear operation is given by:
+
+|vid| < √2 VOV  
+
+If:
+
+|vid| > √2 VOV  
+
+→ One transistor turns OFF  
+→ Current is steered to one branch  
+→ Output becomes nonlinear  
+
+
+
+## Simulation Setup
+
+### Case 1: Linear Region (vid < √2 VOV)
+V1 Vin1 0 SINE(0 0.05 1k)
+V2 Vin2 0 SINE(0 -0.05 1k)
+
+- Differential input:  
+  vid = 0.05 V < 0.283 V  
+
+### Case 2: Nonlinear Region (vid > √2 VOV)
+V1 Vin1 0 SINE(0 0.7 1k)
+V2 Vin2 0 SINE(0 -0.7 1k)
+
+
+- Differential input: vid = 0.7 V > 0.283 V  
+
+## Observations
+
+### Case 1: Linear Region (vid < √2 VOV)
+
+
+<img width="1919" height="885" alt="Screenshot 2026-03-28 223320" src="https://github.com/user-attachments/assets/7b5acb37-1d28-463b-b1ae-9e167da885c2" />
+
+Output voltages Vout1 and Vout2 are:
+- Clean sinusoidal signals
+- Equal in magnitude and opposite in phase
+- No clipping or distortion observed
+- Output is centered around 0 V
+ 
+
+
+
+### Case 2: Nonlinear Region (vid > √2 VOV)
+
+
+<img width="1919" height="882" alt="Screenshot 2026-03-28 223754" src="https://github.com/user-attachments/assets/4b8b19e1-d131-4c91-b0b3-dc1622961b76" />
+
+Output waveforms are:
+
+- Strongly distorted
+- Flattened at peaks (clipping) 
+-  No longer sinusoidal
+
+Output swings close to supply limits
+Upper limit ≈ 0.8–0.9 V
+Lower limit ≈ -0.5 V  
+
+# Comparison and Interpretation
+
+## Comparison of Linear and Nonlinear Operation
+
+| Parameter | Linear Region (vid < √2 VOV) | Nonlinear Region (vid > √2 VOV) |
+|----------|-----------------------------|--------------------------------|
+| Input amplitude | Small (±0.05 V) | Large (±0.7 V) |
+| Differential input (vid) | 0.1 V | 1.4 V |
+| Output waveform | Pure sinusoidal | Distorted / clipped |
+| Symmetry | Perfectly symmetric | Distorted and asymmetric |
+| Phase relation | 180° out of phase | Still opposite, but distorted |
+| Output swing | Within linear limits | Hits supply limits |
+| Transistor operation | Both ON | One OFF at a time |
+| Current distribution | Shared equally | Fully steered to one branch |
+| Gain | Constant | Nonlinear / varying |
+| Behavior | Linear amplifier | Switching behavior |
+
+
+
+# Interpretation of Results
+
+## Linear Region (vid < √2 VOV)
+
+In this region, the applied differential input is small enough that:
+
+- Both input transistors (M1 and M2) remain in saturation  
+- Tail current is continuously shared between both branches  
+
+Output signals (Vout1 and Vout2) are:
+
+- Smooth sinusoidal waves  
+- Equal in magnitude and opposite in phase  
+
+This indicates that:
+
+- The relationship between input and output is linear  
+- The amplifier operates with constant gain  
+- No distortion is introduced  
+
+Hence, the circuit behaves as an ideal differential amplifier.
+
+
+
+## Nonlinear Region (vid > √2 VOV)
+
+When the input signal exceeds the limit:
+
+- One transistor enters cutoff during part of the cycle  
+- The other transistor carries nearly the entire tail current  
+- The circuit no longer shares current symmetrically  
+
+As observed in the waveform:
+
+- Output becomes distorted and clipped  
+- Peaks are flattened due to saturation limits  
+- Output swings approach supply boundaries  
+
+This indicates that:
+
+- The input-output relationship is no longer linear  
+- Gain varies with time  
+- The circuit behaves like a current steering switch  
+
+
+
+# Key Insight
+
+The boundary:
+
+|vid| = √2 VOV  
+
+defines the transition from linear to nonlinear operation.
+
+- Below this limit → Linear amplification  
+- Above this limit → Nonlinear distortion  
+
+
+
+# Final Conclusion
+
+The transient analysis clearly demonstrates that:
+
+- Proper linear amplification occurs only for small differential inputs  
+- Large input signals force the circuit into nonlinear operation  
+
+Maintaining:
+
+- Small signal input  
+- Proper DC biasing  
+- Saturation of all transistors  
+
+is essential for accurate amplifier performance  
+
+Thus, the CMOS differential amplifier transitions from a **linear amplifier** to a **nonlinear switching circuit** as vid increases beyond √2 VOV.
+
+---
+
+# Transient Gain Calculation
+
+## Input Signal
+
+Vin1 = SINE(0 50m 1k)  
+Vin2 = SINE(0 -50m 1k)  
+
+
+<img width="1918" height="892" alt="Screenshot 2026-03-28 225413" src="https://github.com/user-attachments/assets/bba42fd5-d8d6-4528-8cdf-7d4c4e823c26" />
+
+
+
+
+## Measured Values
+
+- Vin (peak-to-peak) = 100 mV  
+- Vout (peak-to-peak) = 191.58 mV  
+
+
+
+## Practical Gain
+
+Av = Vout / Vin  
+
+Av = 191.58 mV / 100 mV  
+
+**Av = 1.9158 V/V**
+
+
+
+## Gain in dB
+
+Av(dB) = 20 log10(1.9158)  
+
+**Av(dB) ≈ 5.647 dB**
+
+
+
+# Small-Signal Gain Calculation (Differential Amplifier)
+
+## Given Data
+
+### Supply Voltages
+- VDD = 0.9 V  
+- VSS = −0.9 V  
+
+### Drain Current
+- ID1 = ID2 = 0.5 mA  
+
+### Overdrive Voltage
+- VOV = 0.2 V  
+
+
+
+## 1. Transconductance (gm)
+
+For a MOSFET:
+
+gm = 2ID / VOV  
+
+Substituting values:
+
+gm = (2 × 0.5 × 10⁻³) / 0.2  
+
+gm = (1 × 10⁻³) / 0.2  
+
+**gm = 5 × 10⁻³ S = 5 mS**
+
+
+
+## 2. Small-Signal Gain Expression
+
+Av = gm × (ro2 || ro4)  
+
+where:
+
+- ro2 = output resistance of NMOS (M2)  
+- ro4 = output resistance of PMOS (M4)  
+
+
+
+## 3. Equivalent Output Resistance
+
+From transient simulation:
+
+- Vin (peak-to-peak) = 100 mV  
+- Vout (peak-to-peak) = 191.58 mV  
+
+Gain:
+
+Av = Vout / Vin  
+
+Av = 1.9158 V/V  
+
+Now:
+
+ro_eq = Av / gm  
+
+ro_eq = 1.9158 / (5 × 10⁻³)  
+
+**ro_eq ≈ 383 Ω**
+
+So:
+
+(ro2 || ro4) ≈ 383 Ω  
+
+
+
+## 4. Individual Output Resistance
+
+Assuming:
+
+ro2 ≈ ro4  
+
+Then:
+
+ro = 2 × ro_eq  
+
+ro ≈ 2 × 383  
+
+**ro ≈ 766 Ω**
+
+
+
+## 5. Final Gain Verification
+
+Av = gm × ro_eq  
+
+Av = (5 × 10⁻³) × 383  
+
+**Av ≈ 1.915 ≈ 1.92 V/V**
+
+
+
+## 6. Gain in dB
+
+Av(dB) = 20 log10(Av)  
+
+Av(dB) = 20 log10(1.9158)  
+
+**Av(dB) ≈ 5.65 dB**
+
+
+
+## 7. Final Results
+
+- gm = 5 mS  
+- ro ≈ 766 Ω  
+- (ro2 || ro4) ≈ 383 Ω  
+- Gain Av ≈ 1.92 V/V  
+- Gain ≈ 5.65 dB  
+
+<img width="1919" height="915" alt="Screenshot 2026-03-28 232329" src="https://github.com/user-attachments/assets/4b6ff6d1-32b2-4707-be92-468e9dc325b2" />
+
+
+
+
+## 8. Observations
+
+The practical gain is higher due to:
+
+- Finite output resistance (ro)  
+- Channel length modulation  
+
+Low gain is due to:
+
+- Small ro (short channel length)  
+- High drain current  
+
+
+
+## 9. Conclusion
+
+The small-signal gain calculated using gm and ro matches closely with the simulated gain.
+
+Hence, the differential amplifier operates correctly in the small-signal region with a gain of approximately:
+
+**Av ≈ 1.92 V/V**
+
+This validates both theoretical analysis and simulation results.
+
+---
+
+# AC Analysis
+
+AC analysis determines frequency response.
+
+
+
+## Circuit Setup
+
+- Set AC amplitude = 1  
+
+
+
+## Midband Gain
+
+- Midband Gain = 5.683 dB  
+- Frequency = 31.622 kHz  
+
+
+<img width="1919" height="915" alt="Screenshot 2026-03-28 232329" src="https://github.com/user-attachments/assets/9bb92f33-e239-4761-847d-2225eea34c8c" />
+
+
+## -3 dB Cutoff Frequency
+
+
+<img width="1916" height="920" alt="Screenshot 2026-03-28 233016" src="https://github.com/user-attachments/assets/1c20fc0b-15f8-4fca-a244-8fedd088ebde" />
+
+
+- Upper Cutoff Frequency:  
+  fH = 3.0644 GHz  
+
+- Lower Cutoff Frequency:  
+  fL = 0 Hz  
+
+
+
+## Bandwidth
+
+BW = fH − fL  
+
+BW = 3.0644 GHz  
+
+
+
+## Midband Gain (Verification)
+
+From AC plot:
+
+Gain (dB) = 5.6837 dB  
+
+Convert to linear:
+
+Av = 10^(5.6837 / 20)  
+
+**Av ≈ 1.92 V/V**
+
+
+
+## Unity Gain Bandwidth (UGB)
+
+UGB is the frequency where gain = 0 dB.
+
+<img width="1919" height="884" alt="Screenshot 2026-03-29 000658" src="https://github.com/user-attachments/assets/94a1f54a-691d-4fa2-b335-23642422db61" />
+
+
+Since the curve crosses 0 dB slightly after BW:
+
+UGB ≈ Av × BW  
+
+UGB ≈ 1.92 × 3.064 GHz  
+
+**UGB ≈ 5.88 GHz**
+
+
+
+## Gain Bandwidth Product (GBP)
+
+For a single-pole system:
+
+GBP = UGB  
+
+**GBP ≈ 5.88 GHz**
+
+
+
+## Final Results
+
+| Parameter | Value |
+|----------|------|
+| Gain (Av) | 1.92 V/V |
+| Gain (dB) | 5.68 dB |
+| Bandwidth (BW) | 3.064 GHz |
+| UGB | 5.88 GHz |
+| GBP | 5.88 GHz |
+
+
+
+## Observations
+
+- Gain is relatively low (~2 V/V)  
+- Bandwidth is very high (~GHz range)  
+- Indicates a low-gain, high-speed amplifier  
+
+
+
+## Interpretation
+
+- Circuit behaves as a wideband amplifier  
+- Low gain due to small output resistance (ro)  
+
+High bandwidth is due to:
+
+- Low parasitic capacitance  
+- Strong bias current  
+
+
+
+## Conclusion
+
+The AC analysis confirms:
+
+- The amplifier has low gain but very high bandwidth  
+- Gain-Bandwidth Product is approximately constant (~5.88 GHz)  
+- Suitable for high-speed analog applications  
+
+---
+
+# Overall Results, Inference and Interpretation
+
+
+
+# 1. Overall Results
+
+## DC Performance
+
+- Total current = 1 mA  
+- Branch current = 0.5 mA  
+- Overdrive voltage (VOV) = 0.2 V  
+- Bias voltage VB ≈ −0.35 V  
+- All MOSFETs operate in saturation region  
+
+
+
+## Transistor Dimensions
+
+- NMOS (M1, M2): W ≈ 122.9 µm  
+- NMOS (M3): W ≈ 246.37 µm  
+- PMOS (M4, M5): W ≈ 51.8 µm  
+
+
+
+## Common Mode Ranges
+
+### Input Common Mode Range
+- VinCM(min) ≈ −0.334 V  
+- VinCM(max) ≈ 1.066 V  
+
+### Output Common Mode Range
+- VoCM(min) ≈ −0.5 V  
+- VoCM(max) ≈ 0.7 V  
+
+
+
+## Differential Input Range
+
+- Theoretical: ±0.668 V  
+- Practical linear range: ±0.4 V  
+
+
+
+## Transient Analysis
+
+- Linear operation for small signals (vid < √2 VOV)  
+- Nonlinear distortion for large signals (vid > √2 VOV)  
+
+
+
+## Gain Performance
+
+- Practical gain Av ≈ 1.92 V/V  
+- Gain ≈ 5.65 dB  
+- Transconductance gm = 5 mS  
+- Output resistance ro ≈ 766 Ω  
+
+
+
+## AC Performance
+
+- Gain ≈ 1.92 V/V (5.68 dB)  
+- Bandwidth ≈ 3.064 GHz  
+- Unity Gain Bandwidth ≈ 5.88 GHz  
+- Gain Bandwidth Product ≈ 5.88 GHz  
+
+
+
+# 2. Inference
+
+- The amplifier successfully operates under **low-voltage (±0.9 V)** conditions.  
+- All transistors are biased correctly in saturation, ensuring proper analog operation.  
+- The circuit demonstrates **stable DC operating point** and reliable biasing.  
+- The gain is relatively low due to:
+  - Small output resistance (ro)  
+  - Short channel length effects  
+- High bandwidth is achieved due to:
+  - Low parasitic capacitances  
+  - Strong bias current  
+- The circuit exhibits a **trade-off between gain and bandwidth**:
+  - Low gain → High speed  
+  - High bandwidth → Wide frequency operation  
+
+
+
+# 3. Interpretation
+
+## Linear vs Nonlinear Behavior
+
+- For small input signals:
+  - Both transistors conduct  
+  - Current is shared  
+  - Output is linear and sinusoidal  
+
+- For large input signals:
+  - One transistor turns OFF  
+  - Current is steered  
+  - Output becomes nonlinear  
+
+
+
+## Circuit Behavior
+
+- Acts as a **linear differential amplifier** for small signals  
+- Acts as a **current-steering switch** for large signals  
+
+
+
+## Performance Nature
+
+- The circuit behaves as a **low-gain, high-speed amplifier**  
+- Suitable for:
+  - High-frequency analog circuits  
+  - Wideband applications  
+  - Front-end signal processing  
+
+
+
+## Design Insight
+
+- Gain can be improved by increasing output resistance (ro)  
+- Bandwidth can be controlled by adjusting bias current and capacitances  
+- Proper biasing is critical to maintain saturation and linearity  
+
+
+
+# Final Conclusion
+
+The designed CMOS differential amplifier demonstrates:
+
+- Correct DC biasing and saturation operation  
+- Accurate small-signal gain matching theoretical and simulation results  
+- High bandwidth (~GHz range) with low gain (~2 V/V)  
+- Clear transition between linear and nonlinear regions  
+
+Thus, the circuit is best suited for **high-speed, wideband analog applications**, where bandwidth is prioritized over gain.
+
+---
 
 # Circuit 3 
 **CIRCUIT DIAGRAM :**
@@ -1423,7 +2465,7 @@ Check:
 
 VDS ≥ Vov  
 
-0.6676 ≥ 0.334 ✔  
+0.6676 ≥ 0.334 
 
 
 
@@ -1443,7 +2485,7 @@ Vov3 = 0.56 − 0.366 = 0.194 V
 
 Check:
 
-0.2 ≥ 0.194 ✔  
+0.2 ≥ 0.194  
 
 
 
@@ -1463,7 +2505,7 @@ Vovp = 1.26 − 0.39 = 0.87 V
 
 Check:
 
-0.9324 ≥ 0.87 ✔  
+0.9324 ≥ 0.87  
 
 
 
@@ -1803,8 +2845,8 @@ vid = 10 mV <  0.472V
 
 ## Result
 
-✔ Circuit behaves as a **linear amplifier**  
-✔ Output is proportional to input  
+- Circuit behaves as a **linear amplifier**  
+-  Output is proportional to input  
 
 
 
@@ -2083,7 +3125,7 @@ The AC analysis shows that the CMOS differential amplifier provides a midband ga
 # Results, Inference and Interpretation
 
 
----
+
 
 # 1. Final Results
 
@@ -2094,7 +3136,7 @@ The AC analysis shows that the CMOS differential amplifier provides a midband ga
 - Output voltage (Vout) ≈ −0.0324 V  
 - All MOSFETs operate in **saturation region** ✔  
 
----
+
 
 ## Common Mode Range
 
@@ -2103,14 +3145,14 @@ The AC analysis shows that the CMOS differential amplifier provides a midband ga
 VinCM(min) = −0.334 V  
 VinCM(max) = 0.176 V  
 
----
+
 
 ### Output Common Mode Voltage
 
 VoCM(min) = −0.366 V  
 VoCM(max) = 0.566 V  
 
----
+
 
 ## Differential Input Range
 
@@ -2120,7 +3162,7 @@ Linear region condition:
 
 |vid| ≤ 0.472 V  
 
----
+
 
 ## Small Signal Gain
 
@@ -2128,7 +3170,7 @@ Linear region condition:
 - Gain ≈ 32.377 dB (simulation)  
 - Gain ≈ 41.6 V/V  
 
----
+
 
 ## AC Analysis
 
@@ -2136,7 +3178,7 @@ Linear region condition:
 - Unity Gain Bandwidth (UGB) ≈ 18.56 GHz  
 - Gain Bandwidth Product (GBP) ≈ 18.56 GHz  
 
----
+
 
 ## Transient Analysis
 
@@ -2146,7 +3188,7 @@ Linear region condition:
 - No distortion observed  
 - Current equally shared  
 
----
+
 
 ### Nonlinear Region (vid > √2Vov)
 
@@ -2154,7 +3196,7 @@ Linear region condition:
 - Current steering occurs  
 - One transistor dominates conduction  
 
----
+
 
 # 2. Inference
 
@@ -2164,7 +3206,7 @@ Linear region condition:
 - High bandwidth and large GBP indicate that the circuit is suitable for high-frequency applications.  
 - The gain obtained from AC analysis matches closely with theoretical expectations, validating the design.  
 
----
+
 
 # 3. Interpretation
 
@@ -2185,11 +3227,13 @@ Linear region condition:
   - Bandwidth is wide  
   - UGB ≈ GBP (single-pole behavior)  
 
----
+
 
 # 4. Final Conclusion
 
 The CMOS differential amplifier is successfully designed and analyzed. The circuit satisfies all operating conditions, exhibits proper linear amplification within the defined input range, and demonstrates high-frequency performance with significant gain-bandwidth product. The results confirm the theoretical behavior of differential amplifiers in both linear and nonlinear regions.
+
+ ---
 
 
 # Detailed Comparison and Interpretation of Circuit 1, Circuit 2, and Circuit 3
@@ -2463,7 +3507,7 @@ However, this improvement comes with trade-offs such as reduced input common-mod
 
 ---
 
-# 12. Final Insight (Very Important)
+# 12. Final Insight 
 
 
 
