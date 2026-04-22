@@ -129,7 +129,7 @@ A MOS differential amplifier consists of:
 - Measures noise rejection capability
 
   ---
-  
+# CIRCUIT 1 - CMOS Differential Amplifier (Differential Pair) 
 #  1) Circuit Design Calculations
 
 
@@ -1352,7 +1352,7 @@ The results from DC, transient, and AC analyses confirm that the amplifier provi
 The design meets all specifications and demonstrates the fundamental operation of a MOS differential amplifier as both a **linear amplifier** and a **non-linear switching device**, depending on the input conditions.
 
 ---
-# CIRCUIT 2 
+# CIRCUIT 2 - CMOS Differential Amplifier with Active Load
 **CIRCUIT DIAGRAM**
 <img width="1182" height="877" alt="Screenshot 2026-03-29 001109" src="https://github.com/user-attachments/assets/9011a0dd-df8e-4954-b8f0-1223d60cce69" />
 
@@ -2395,7 +2395,7 @@ Thus, the circuit is best suited for **high-speed, wideband analog applications*
 
 ---
 
-# Circuit 3 
+# Circuit 3 - CMOS Differential Amplifier with Current Mirror Active Load and Tail Current Source
 **CIRCUIT DIAGRAM :**
 <img width="1265" height="834" alt="image" src="https://github.com/user-attachments/assets/cd5e3b3c-1507-423c-8aab-6aad42ba263f" />
 
